@@ -1,6 +1,6 @@
 {
     "name": "zqtop999/tp5model",
-    "description": "一个基于thinkphp的command类实现的用于给model自动增加或者更新属性注释的工具。",
+    "description": "thinkphp5 model注释生成",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -9,10 +9,11 @@
             "email": "zq.top.999@gmail.com"
         }
     ],
-	"minimum-stability" : "stable",
-    "autoload": {
-        "psr-4": {
-            "zqtop999\\think\\command\\": "src"
-        }
-    }
+    "minimum-stability": "dev",
+    "require": {},
+	"autoload": {
+		"psr-4": {
+			"zqtop999\\think\\command\\": "src"
+		}
+	}
 }
