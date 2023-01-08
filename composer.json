@@ -9,8 +9,7 @@
             "email": "zq.top.999@gmail.com"
         }
     ],
-	"minimum-stability" : "dev",
-	"prefer-stable" : true,
+	"minimum-stability" : "stable",
     "autoload": {
         "psr-4": {
             "zqtop999\\think\\command\\": "src"
