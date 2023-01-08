@@ -16,13 +16,14 @@
 
 首先使用composer 安装
 ```
-composer require  xiaobai/mph 
+composer require  zqtop999/tp5model
+``` 
 ```
 
 然后在command.php文件增加配置
 
 ```
-'amp' => \xiaobai\think\command\ModelProperty::class,
+'amp' => \zqtop999\think\command\ModelProperty::class,
 ```
 
 完成以后

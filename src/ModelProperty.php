@@ -6,7 +6,7 @@
  * Time: 下午2:35
  */
 
-namespace zqtop\think\command;
+namespace zqtop999\think\command;
 
 
 use think\App;
