@@ -1,4 +1,4 @@
-# model_property_helper
+# tp5model
 
 这是一个基于thinkphp的command类实现的用于给model自动增加或者更新属性注释的工具，因为tp里面一个模型对应的是一个数据表。php是动态的语言，
 模型对外提供的属性不能够在代码中定义，所以会导致以`$model->property`形式访问的时候编辑器会出警告，而且没有代码提示，很不友好。此外如果想
