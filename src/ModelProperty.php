@@ -6,7 +6,7 @@
  * Time: 下午2:35
  */
 
-namespace xiaobai\think\command;
+namespace zqtop\think\command;
 
 
 use think\App;
