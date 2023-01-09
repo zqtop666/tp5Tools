@@ -7,7 +7,7 @@
  */
 
 namespace zqtop999\think\command;
-
+ini_set('pcre.backtrack_limit',9999999999);
 
 use think\App;
 use think\console\Command;
@@ -48,7 +48,7 @@ class ModelProperty extends Command
                     try {
                         $this->parseSingleFile($filePath);
                     } catch (\Exception $exception) {
-                        echo $exception->getMessage();
+                        echo $exception->getMessage()."\r\n";
                     }
                 } else {
                     continue;//目录嵌套暂时不处理
@@ -77,7 +77,7 @@ class ModelProperty extends Command
                         $this->parseTableAllAttr($instance, $comments);
                         $this->parseClass($instance, $comments);
                         $classComments = "\n\n/**\n" . implode("\n", $comments) . "\n*/\n\n";
-                        $result = preg_replace('/^([\s\S]*;)([\s\S]*?)(class.*?extends[\s\S]*)$/', "$1$classComments$3", $fileContent);
+                        $result = preg_replace('#^([\s\S]*;)([\s\S]*?)(class.*?extends[\s\S]*)$#', "$1$classComments$3", $fileContent);
                         file_put_contents($filePath, $result);
                     } else {
                         exception("$class 不是模型类");
@@ -123,12 +123,19 @@ class ModelProperty extends Command
         if (preg_match('/COMMENT=\'(.*?)\'$/', $tableSql, $m2)) {
             $comments[] = " * " . $m2[1];
         }
+        $fieldsAdded = [];
         for ($i = 0; $i < count($matches[0]); $i++) {
             $ctss = preg_match_all("#(.*?)COMMENT\s*'(.*?)'$#", $cts[$i], $m3);
             if (!empty($m3[2]) && !empty($m3[2][0])) {
-                $comments[] = " * @property $" . $fields[$i] . self::$tabs . $m3[2][0];
+                if (!in_array($fields[$i], $fieldsAdded)) {
+                    $comments[] = " * @property $" . $fields[$i] . self::$tabs . $m3[2][0];
+                    $fieldsAdded[]=$fields[$i];
+                }
             } else {
-                $comments[] = " * @property $" . $fields[$i] . self::$tabs . $fields[$i];
+                if (!in_array($fields[$i], $fieldsAdded)) {
+                    $comments[] = " * @property $" . $fields[$i] . self::$tabs . $fields[$i];
+                    $fieldsAdded[]=$fields[$i];
+                }
             }
         }
     }
