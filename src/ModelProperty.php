@@ -24,7 +24,7 @@ class ModelProperty extends Command
 
     protected function configure()
     {
-        $this->setName('amp')
+        $this->setName('tp5model')
             ->addArgument('model', Argument::OPTIONAL, "模型的名字")
             ->addOption('override', null, Option::VALUE_OPTIONAL, '是否强制覆盖')
             ->setDescription('模型自动增加属性注释');
