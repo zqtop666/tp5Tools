@@ -7,7 +7,7 @@
  */
 
 namespace zqtop999\think\command;
-ini_set('pcre.backtrack_limit',9999999999);
+ini_set('pcre.backtrack_limit', 9999999999);
 
 use think\App;
 use think\console\Command;
@@ -48,7 +48,7 @@ class ModelProperty extends Command
                     try {
                         $this->parseSingleFile($filePath);
                     } catch (\Exception $exception) {
-                        echo $exception->getMessage()."\r\n";
+                        echo $exception->getTraceAsString() . "\r\n";
                     }
                 } else {
                     continue;//目录嵌套暂时不处理
@@ -74,10 +74,11 @@ class ModelProperty extends Command
                     $instance = new $class();
                     if ($instance instanceof Model) {
                         $comments = [];
-                        $this->parseTableAllAttr($instance, $comments);
+                        $ff = "";
+                        $this->parseTableAllAttr($instance, $comments, $ff);
                         $this->parseClass($instance, $comments);
-                        $classComments = "\n\n/**\n" . implode("\n", $comments) . "\n*/\n\n";
-                        $result = preg_replace('#^([\s\S]*;)([\s\S]*?)(class.*?extends[\s\S]*)$#', "$1$classComments$3", $fileContent);
+                        $classComments = "\n\n/**\n" . implode("\n", $comments) . "\n */\n";
+                        $result = preg_replace('#^([\s\S]*;)([\s\S]*?)(class.*?extends[\s\S]*)\\n\{(.*?)\\n(.*?)//\\n(.*?)\}#', "$1$classComments$3" . "\n{\n" . "$4$ff" . "    //\n$6\n}", $fileContent);
                         file_put_contents($filePath, $result);
                     } else {
                         exception("$class 不是模型类");
@@ -114,7 +115,7 @@ class ModelProperty extends Command
         }
     }
 
-    protected function parseTableAllAttr(Model $model, &$comments)
+    protected function parseTableAllAttr(Model $model, &$comments, &$ff)
     {
         $tableSql = $model->query("show create table " . $model->getTable())[0]['Create Table'];
         preg_match_all("#`(.*?)`(.*?),#", $tableSql, $matches);
@@ -129,12 +130,14 @@ class ModelProperty extends Command
             if (!empty($m3[2]) && !empty($m3[2][0])) {
                 if (!in_array($fields[$i], $fieldsAdded)) {
                     $comments[] = " * @property $" . $fields[$i] . self::$tabs . $m3[2][0];
-                    $fieldsAdded[]=$fields[$i];
+                    $fieldsAdded[] = $fields[$i];
+                    $ff .= "    protected $" . $fields[$i] . " = '" . $fields[$i] . "';\n\n";
                 }
             } else {
                 if (!in_array($fields[$i], $fieldsAdded)) {
                     $comments[] = " * @property $" . $fields[$i] . self::$tabs . $fields[$i];
-                    $fieldsAdded[]=$fields[$i];
+                    $fieldsAdded[] = $fields[$i];
+                    $ff .= "    protected $" . $fields[$i] . " = '" . $fields[$i] . "';\n\n";
                 }
             }
         }
