@@ -23,17 +23,17 @@ composer require  zqtop999/tp5model
 然后在command.php文件增加配置
 
 ```
-'amp' => \zqtop999\think\command\ModelProperty::class,
+'tp5model' => \zqtop999\think\command\ModelProperty::class,
 ```
 
 完成以后
 
 ```
-php think amp index/model #为index模块下model目录的所有的模型文件生成注释
+php think tp5model index/model #为index模块下model目录的所有的模型文件生成注释
 ```
 也可以
 ```
-php think amp index/model/PeopleModel.php #为index模块下model目录的PeopleModel生成注释
+php think tp5model index/model/PeopleModel.php #为index模块下model目录的PeopleModel生成注释
 ```
 
 # 实验案例如下
