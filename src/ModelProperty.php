@@ -76,10 +76,14 @@ class ModelProperty extends Command
                         $comments = [];
                         $ff = "";
                         $this->parseTableAllAttr($instance, $comments, $ff);
+                        //print_r($comments);
                         $this->parseClass($instance, $comments);
+                        //print_r($comments);
                         $classComments = "\n\n/**\n" . implode("\n", $comments) . "\n */\n";
 
-                        $result = preg_replace('#^([\s\S]*;)([\s\S]*?)(class.*?extends[\s\S]*)\\n\{([\s\S]*)\/\/([\s\S]*)\\n\}#', "$1$classComments$3" . "\n{\n" . "$ff" . "    //$5\n}", $fileContent);
+                        $result = preg_replace('#^([\s\S]*;)([\s\S]*?)(class.*?extends[\s\S]*)\\n\{([\s\S]*)\/\/\\n([\s\S]*)\\n\}#', "$1$classComments$3" . "\n{\n" . "$ff" . "    //$5\n}", $fileContent);
+                        //print_r($result);die;
+
                         //preg_match_all('#^([\s\S]*;)([\s\S]*?)(class.*?extends[\s\S]*)\\n\{([\s\S]*)\/\/([\s\S]*)\\n\}#',$fileContent,$m);
                         //print_r($m);die;
                         file_put_contents($filePath, $result);
@@ -128,11 +132,12 @@ class ModelProperty extends Command
             $comments[] = " * " . $m2[1];
         }
         $fieldsAdded = [];
+        //print_r($tableSql);
         for ($i = 0; $i < count($matches[0]); $i++) {
-            $ctss = preg_match_all("#(.*?)COMMENT\s*'(.*?)'$#", $cts[$i], $m3);
-            if (!empty($m3[2]) && !empty($m3[2][0])) {
+            preg_match("#(.*?)COMMENT\s*'(.*?)'#", $cts[$i], $m3);
+            if (!empty($m3)) {
                 if (!in_array($fields[$i], $fieldsAdded)) {
-                    $comments[] = " * @property $" . $fields[$i] . self::$tabs . $m3[2][0];
+                    $comments[] = " * @property $" . $fields[$i] . self::$tabs . $m3[2];
                     $fieldsAdded[] = $fields[$i];
                     if (!(in_array(strtolower($fields[$i]), ['updatetime', 'createtime']))) {
                         $ff .= "    static $" . $fields[$i] . " = '" . $fields[$i] . "';\n\n";
