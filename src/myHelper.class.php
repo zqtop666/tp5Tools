@@ -1,6 +1,6 @@
 <?php
 
-namespace zqtop999\think\tools;
+namespace zqtop999\think\tp5tools;
 /**
  * 助手类
  * @author www.shouce.ren

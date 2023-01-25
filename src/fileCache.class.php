@@ -1,5 +1,5 @@
 <?php
-namespace zqtop999\think\tools;
+namespace zqtop999\think\tp5tools;
 //DT_CACHE的文件夹名称
 define('DT_CACHEDIR', 'zqCacheData');
 //_FILE_在二级目录

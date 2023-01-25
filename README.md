@@ -14,7 +14,7 @@ composer require  zqtop999/tp5model
 然后在command.php文件增加配置
 
 ```
-'tp5model' => \zqtop999\think\tools\tp5model::class,
+'tp5model' => \zqtop999\think\tp5tools\tp5model::class,
 ```
 
 完成以后
