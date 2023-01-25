@@ -18,6 +18,10 @@ use think\console\Output;
 use think\Loader;
 use think\Model;
 
+/**
+ * Class tp5model
+ * @package zqtop999\think\tools
+ */
 class tp5model extends Command
 {
     protected static $tabs = "   ";
