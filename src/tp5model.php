@@ -6,7 +6,7 @@
  * Time: 下午2:35
  */
 
-namespace zqtop999\think\command;
+namespace zqtop999\think\tools;
 ini_set('pcre.backtrack_limit', 9999999999);
 
 use think\App;
@@ -18,7 +18,7 @@ use think\console\Output;
 use think\Loader;
 use think\Model;
 
-class ModelProperty extends Command
+class tp5model extends Command
 {
     protected static $tabs = "   ";
 

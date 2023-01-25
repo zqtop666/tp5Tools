@@ -1,6 +1,6 @@
 {
-    "name": "zqtop999/tp5model",
-    "description": "thinkphp5 model注释生成",
+    "name": "zqtop999/tp5tools",
+    "description": "thinkphp5 工具集",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,7 @@
     "require": {},
 	"autoload": {
 		"psr-4": {
-			"zqtop999\\think\\command\\": "src"
+			"zqtop999\\think\\tools\\": "src"
 		}
 	}
 }
