@@ -6,7 +6,10 @@ namespace zqtop999\think\tp5tools;
  * @author www.shouce.ren
  *
  */
-class myHelper
+use think\App;
+
+
+class myHelper extends App
 {
     /**
      * 当前微妙数

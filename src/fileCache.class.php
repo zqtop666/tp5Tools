@@ -1,4 +1,5 @@
 <?php
+
 namespace zqtop999\think\tp5tools;
 //DT_CACHE的文件夹名称
 define('DT_CACHEDIR', 'zqCacheData');
@@ -26,7 +27,9 @@ if (!function_exists('file_put_contents')) {
     }
 }
 
-class fileCache
+use think\App;
+
+class fileCache extends App
 {
     public static function file_ext($filename)
     {
