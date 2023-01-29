@@ -1,15 +1,7 @@
 <?php
+namespace zqtop999\tp5tools;
 
-namespace zqtop999\think\tp5tools;
-/**
- * 助手类
- * @author www.shouce.ren
- *
- */
-use think\App;
-
-
-class myHelper extends App
+class myHelper
 {
     /**
      * 当前微妙数

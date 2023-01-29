@@ -6,7 +6,7 @@
  * Time: 下午2:35
  */
 
-namespace zqtop999\think\tp5tools;
+namespace zqtop999\tp5tools;
 ini_set('pcre.backtrack_limit', 9999999999);
 
 use think\App;

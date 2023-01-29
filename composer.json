@@ -13,7 +13,7 @@
     "require": {},
 	"autoload": {
 		"psr-4": {
-			"zqtop999\\think\\tp5tools\\": "src"
+			"zqtop999\\tp5tools\\": "src"
 		}
 	}
 }
