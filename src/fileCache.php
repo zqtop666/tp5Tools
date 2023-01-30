@@ -1,4 +1,5 @@
 <?php
+
 namespace zqtop999\tp5tools;
 
 define('IN_CACHE', 1);
@@ -24,14 +25,14 @@ if (!function_exists('file_put_contents')) {
 
 class fileCache
 {
-    public static function file_ext($filename)
+    private static function file_ext($filename)
     {
         if (strpos($filename, '.') === false) return '';
         $ext = strtolower(trim(substr(strrchr($filename, '.'), 1)));
         return preg_match("/^[a-z0-9]{1,10}$/", $ext) ? $ext : '';
     }
 
-    public static function file_vname($name)
+    private static function file_vname($name)
     {
         if (strpos($name, '/') === false) return str_replace(array(' ', '\\', ':', '*', '?', '"', '<', '>', '|', "'", '$', '&', '%', '#', '@'), array('-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''), $name);
         $tmp = explode('/', $name);
@@ -42,7 +43,7 @@ class fileCache
         return $str;
     }
 
-    public static function file_down($file, $filename = '', $data = '')
+    private static function file_down($file, $filename = '', $data = '')
     {
         if (!$data && !is_file($file)) exit;
         $filename = $filename ? $filename : basename($file);
@@ -69,7 +70,7 @@ class fileCache
         exit;
     }
 
-    public static function file_list($dir, $fs = array())
+    private static function file_list($dir, $fs = array())
     {
         $files = glob($dir . '/*');
         if (!is_array($files)) return $fs;
@@ -83,7 +84,7 @@ class fileCache
         return $fs;
     }
 
-    public static function file_copy($from, $to)
+    private static function file_copy($from, $to)
     {
         self::dir_create(dirname($to));
         if (is_file($to) && DT_CHMOD) @chmod($to, DT_CHMOD);
@@ -96,7 +97,7 @@ class fileCache
         }
     }
 
-    public static function file_put($filename, $data)
+    private static function file_put($filename, $data)
     {
         self::dir_create(dirname($filename));
         if (@$fp = fopen($filename, 'wb')) {
@@ -111,25 +112,25 @@ class fileCache
         }
     }
 
-    public static function file_get($filename)
+    private static function file_get($filename)
     {
         return @file_get_contents($filename);
     }
 
-    public static function file_del($filename)
+    private static function file_del($filename)
     {
         if (DT_CHMOD) @chmod($filename, DT_CHMOD);
         return is_file($filename) ? @unlink($filename) : false;
     }
 
-    public static function dir_path($dirpath)
+    private static function dir_path($dirpath)
     {
         $dirpath = str_replace('\\', '/', $dirpath);
         if (substr($dirpath, -1) != '/') $dirpath = $dirpath . '/';
         return $dirpath;
     }
 
-    public static function dir_create($path)
+    private static function dir_create($path)
     {
         if (is_dir($path)) return true;
         if (DT_CACHE != DT_ROOT . "/" . DT_CACHEDIR && strpos($path, DT_CACHE) !== false) {
@@ -160,7 +161,7 @@ class fileCache
         return is_dir($path);
     }
 
-    public static function dir_chmod($dir, $mode = '', $require = 0)
+    private static function dir_chmod($dir, $mode = '', $require = 0)
     {
         if (!$require) $require = substr($dir, -1) == '*' ? 2 : 0;
         if ($require) {
@@ -182,7 +183,7 @@ class fileCache
         }
     }
 
-    public static function dir_copy($fromdir, $todir)
+    private static function dir_copy($fromdir, $todir)
     {
         $fromdir = self::dir_path($fromdir);
         $todir = self::dir_path($todir);
@@ -204,7 +205,7 @@ class fileCache
         return true;
     }
 
-    public static function dir_delete($dir)
+    private static function dir_delete($dir)
     {
         $dir = self::dir_path($dir);
         if (!is_dir($dir)) return false;
@@ -219,7 +220,7 @@ class fileCache
         return @rmdir($dir);
     }
 
-    public static function get_file($dir, $ext = '', $fs = array())
+    private static function get_file($dir, $ext = '', $fs = array())
     {
         $files = glob($dir . '/*');
         if (!is_array($files)) return $fs;
@@ -238,7 +239,7 @@ class fileCache
         return $fs;
     }
 
-    public static function is_write($file)
+    private static function is_write($file)
     {
         if (DT_WIN) {
             if (substr($file, -1) == '/') {
@@ -271,28 +272,48 @@ class fileCache
         }
     }
 
-    public static function strip_nr($string, $js = false)
+    private static function strip_nr($string, $js = false)
     {
         $string = str_replace(array(chr(13), chr(10), "\n", "\r", "\t", '  '), array('', '', '', '', '', ''), $string);
         if ($js) $string = str_replace("'", "\'", $string);
         return $string;
     }
 
-    public static function cache_read($file, $dir = '', $mode = '')
+    /**
+     * 读取缓存数据
+     * @param string $file 文件名
+     * @param string $dir 文件夹
+     * @param string $mode 读取模式(true:读取文件内容;false:读取文件数组)
+     * @return array|false|mixed|string
+     */
+    public static function cache_read($file, $dir = '', $mode = false)
     {
         $file = $dir ? DT_CACHE . '/' . $dir . '/' . $file : DT_CACHE . '/' . $file;
         if (!is_file($file)) return $mode ? '' : array();
         return $mode ? self::file_get($file) : include $file;
     }
 
-    public static function cache_write($file, $string, $dir = '')
+    /**
+     * 写入缓存数据
+     * @param string $file 文件名
+     * @param mixed $data 数据
+     * @param string $dir 文件夹
+     * @return false|int
+     */
+    public static function cache_write($file, $data, $dir = '')
     {
-        if (is_array($string)) $string = "<?php defined('IN_CACHE') or exit('Access Denied'); return " . self::strip_nr(var_export($string, true)) . "; ?>";
+        if (is_array($data)) $data = "<?php defined('IN_CACHE') or exit('Access Denied'); return " . self::strip_nr(var_export($data, true)) . "; ?>";
         $file = $dir ? DT_CACHE . '/' . $dir . '/' . $file : DT_CACHE . '/' . $file;
-        $strlen = self::file_put($file, $string);
+        $strlen = self::file_put($file, $data);
         return $strlen;
     }
 
+    /**
+     * 删除缓存数据文件
+     * @param string $file 文件名
+     * @param string $dir 文件夹
+     * @return bool
+     */
     public static function cache_delete($file, $dir = '')
     {
         $file = $dir ? DT_CACHE . '/' . $dir . '/' . $file : DT_CACHE . '/' . $file;
