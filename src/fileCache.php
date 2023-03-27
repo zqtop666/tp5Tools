@@ -2,6 +2,10 @@
 
 namespace zqtop999\tp5tools;
 
+define('DT_CACHEDIR', 'zqCacheData');
+//_FILE_在二级目录
+define('DT_ROOT', str_replace("\\", '/', dirname(__FILE__)) . "/..");
+
 define('IN_CACHE', 1);
 //其他常量
 define('DT_WIN', strpos(strtoupper(PHP_OS), 'WIN') !== false ? true : false);
