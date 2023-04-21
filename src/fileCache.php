@@ -1,6 +1,7 @@
 <?php
 
 namespace zqtop999\tp5tools;
+//ROOT_PATH
 !defined('ROOT_PATH') and define('ROOT_PATH', dirname(__FILE__));
 define('DT_CACHEDIR', 'zqCacheData');
 //_FILE_在二级目录
