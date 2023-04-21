@@ -1,7 +1,7 @@
 <?php
 
 namespace zqtop999\tp5tools;
-
+!defined('ROOT_PATH') and define('ROOT_PATH', dirname(__FILE__));
 define('DT_CACHEDIR', 'zqCacheData');
 //_FILE_在二级目录
 define('DT_ROOT', str_replace("\\", '/', dirname(__FILE__)) . "/..");
