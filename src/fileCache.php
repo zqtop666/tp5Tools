@@ -5,14 +5,14 @@ namespace zqtop999\tp5tools;
 //根目录
 !defined('DT_ROOT') and define('DT_ROOT', str_replace("\\", '/', dirname(__FILE__)) . "/..");
 //缓存目录
-define('DT_CACHEDIR', 'zqFilesCache');
+define('DT_CACHEDIR', 'FileCacheDir');
 define('IN_CACHE', 1);
 //其他常量
 define('DT_WIN', strpos(strtoupper(PHP_OS), 'WIN') !== false ? true : false);
 define('DT_CHMOD', (0777 && !DT_WIN) ? 0777 : 0);
 define('DT_PATH', "http://" . $_SERVER['HTTP_HOST']);
 //DT_CACHE，和 DT_CACHEDIR 保持一致
-define('DT_CACHE', DT_ROOT . "/zqFilesCache");
+define('DT_CACHE', DT_ROOT . "/FileCacheDir");
 if (!function_exists('file_put_contents')) {
     define('FILE_APPEND', 8);
     function file_put_contents($file, $string, $append = '')
